@@ -1,5 +1,5 @@
 body{
-    background-image: url("22.jpg");
+    background-image: url("/images/22.jpg");
 backdrop-filter: blur(3px) ;
     background-repeat: no-repeat;
     background-size: cover;
