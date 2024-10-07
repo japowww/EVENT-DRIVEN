@@ -11,12 +11,14 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""></script>
+    <script src="maker.js"></script>
 
     <title>Applet-Map</title>
 
 <style>
 .body{
     background-color: black;
+
 }
 
 
@@ -53,9 +55,9 @@
               Applet list
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Applet Gallery</a></li>
-              <li><a class="dropdown-item" href="#">Applet Map</a></li>
-              <li><a class="dropdown-item" href="#">Applet EventLogger</a></li>
+              <li><a class="dropdown-item" href="/applet-gallery/index.html">Applet Gallery</a></li>
+              <li><a class="dropdown-item" href="/Applet-Map/index.html">Applet Map</a></li>
+              <li><a class="dropdown-item" href="/Applet-EventLogger/#">Applet EventLogger</a></li>
             </ul>
           </li>
         </ul>
@@ -67,7 +69,7 @@
 </head>
 <body class="body">
 
-<h1 class="map" style="text-align: center; color: white; font-family: 'Times New Roman', Times, serif; margin-top: 3rem;">
+<h1 class="map" style="text-align: center; color: white; font-family: 'Times New Roman', Times, serif; margin-top: 3rem; margin-bottom: 2rem;">
     Mapa ni Dora</h1>
     
     <div id="map"></div>
@@ -97,12 +99,30 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }
 
 
+addMarker(lat, lng, message) {
+        const marker = L.marker([lat, lng]).addTo(this.map);
+        marker.bindPopup(message);
+    }
+
+    loadMarkersFromJson(url) {
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(marker => {
+                    this.addMarker(marker.latitude, marker.longitude, marker.message);
+                });
+            })
+            .catch(error => console.error('Error loading markers:', error));
+    }
+
+
 
 
 
 }
 const myMap = new LeafletMap('map', [8.360004, 124.868419], 18);
 
+myMap.loadMarkersFromJson('applet.json');
     </script>
 
     
